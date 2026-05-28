@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directors Match | Find Your Frame — Sage University Bhopal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c1:#463f3a;--c2:#8a817c;--c3:#bcb8b1;
+  --c4:#f4f3ee;--c5:#e0afa0;--bg:#f4f3ee;
+  --panel:#fff;--border:#bcb8b1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* FILM GRAIN */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.04;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+background-size:200px;}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+padding:1rem 3rem;background:rgba(244,243,238,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:2px;}
+.brand em{color:var(--c5);font-style:italic;}
+.search-wrap{display:flex;align-items:center;gap:.5rem;background:var(--bg);border:1px solid var(--border);border-radius:30px;padding:.4rem 1rem;width:240px;}
+.search-wrap input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--c1);outline:none;width:100%;}
+.search-wrap input::placeholder{color:var(--c2);}
+nav{display:flex;gap:.3rem;}
+nav a{color:var(--c2);text-decoration:none;font-size:.8rem;padding:.3rem .8rem;border:1px solid transparent;border-radius:20px;transition:all .2s;cursor:pointer;}
+nav a:hover{border-color:var(--border);color:var(--c1);}
+#favLink{display:none;}
+
+/* HERO */
+.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 3rem 5rem;}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1800&q=80') center/cover;transform:scale(1.06);transition:transform 8s ease;}
+.hero-bg.loaded{transform:scale(1);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(70,63,58,.9) 0%,rgba(70,63,58,.15) 65%,transparent 100%);}
+.hero-content{position:relative;color:var(--c4);max-width:700px;}
+.eyebrow{font-size:.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--c5);margin-bottom:1rem;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,8vw,6.5rem);font-weight:300;line-height:.95;letter-spacing:-1px;margin-bottom:1.2rem;}
+.hero h1 em{font-style:italic;color:var(--c5);}
+.hero p{font-size:.92rem;color:rgba(244,243,238,.6);margin-bottom:2rem;line-height:1.7;max-width:480px;}
+.btn-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 2rem;background:var(--c5);color:var(--c1);border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-cta:hover{background:#d4997e;transform:translateY(-2px);}
+.scroll-hint{position:absolute;bottom:2rem;right:3rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(244,243,238,.3);font-size:.6rem;letter-spacing:3px;text-transform:uppercase;}
+.scroll-hint::before{content:"";width:1px;height:50px;background:linear-gradient(to bottom,rgba(244,243,238,.3),transparent);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* SECTIONS */
+.section{padding:6rem 3rem;}
+.sec-eyebrow{font-size:.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--c5);margin-bottom:.5rem;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:2.5rem;line-height:1.1;}
+.sec-title em{font-style:italic;color:var(--c5);}
+
+/* FEATURES */
+.features{background:var(--c4);}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;}
+.feat{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:1.6rem;transition:transform .2s;}
+.feat:hover{transform:translateY(-3px);}
+.feat-icon{width:38px;height:38px;border-radius:50%;background:rgba(224,175,160,.15);border:1px solid rgba(224,175,160,.3);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:.95rem;}
+.feat h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;margin-bottom:.4rem;}
+.feat p{font-size:.8rem;color:var(--c2);line-height:1.6;}
+
+/* SCOUT TOOL */
+.scout{background:var(--c1);color:var(--c4);}
+.scout .sec-title{color:var(--c4);}
+.scout-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;align-items:start;}
+
+/* upload */
+.upload-zone{border:1.5px dashed rgba(188,184,177,.3);border-radius:8px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(244,243,238,.03);color:var(--c3);}
+.upload-zone:hover,.upload-zone.ready{border-color:var(--c5);background:rgba(224,175,160,.06);}
+.upload-zone.ready{color:var(--c5);}
+.upload-zone .up-icon{font-size:1.8rem;display:block;margin-bottom:.5rem;}
+.upload-zone p{font-size:.85rem;line-height:1.6;}
+.upload-zone .hint{font-size:.7rem;color:var(--c2);margin-top:.25rem;}
+#fileInput{display:none;}
+#previewImg{width:100%;max-height:240px;object-fit:cover;border-radius:8px;margin-top:.9rem;display:none;border:1px solid rgba(188,184,177,.2);}
+
+/* EXIF */
+.exif-panel{background:rgba(244,243,238,.04);border:1px solid rgba(188,184,177,.12);border-radius:8px;padding:1rem;margin-top:1rem;display:none;}
+.exif-panel.show{display:block;}
+.exif-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem;}
+.exif-stat{background:rgba(244,243,238,.06);border-radius:4px;padding:.5rem .7rem;}
+.exif-lbl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--c2);margin-bottom:2px;}
+.exif-val{font-size:1rem;font-weight:500;color:var(--c4);}
+
+/* inputs */
+.inputs{margin-top:1.2rem;display:flex;flex-direction:column;gap:.8rem;}
+.inp label{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--c3);margin-bottom:.3rem;}
+.inp input{width:100%;background:rgba(244,243,238,.06);border:1px solid rgba(188,184,177,.2);color:var(--c4);padding:.65rem .9rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.inp input:focus{border-color:var(--c5);}
+.inp input::placeholder{color:var(--c2);}
+.btn-analyze{margin-top:1.2rem;width:100%;padding:.9rem;background:var(--c5);color:var(--c1);border:none;border-radius:4px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:2px;cursor:pointer;transition:all .2s;}
+.btn-analyze:hover{background:#d4997e;transform:translateY(-1px);}
+.btn-analyze:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.err{background:rgba(200,50,50,.08);border:1px solid rgba(200,50,50,.2);color:#f87171;border-radius:4px;padding:.65rem .9rem;font-size:.82rem;margin-top:.8rem;display:none;}
+.err.show{display:block;}
+
+/* results */
+.res-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:240px;border:1.5px dashed rgba(188,184,177,.15);border-radius:8px;gap:.5rem;}
+.res-empty .big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;opacity:.15;}
+.res-empty p{font-size:.8rem;color:var(--c2);}
+#resContent{display:none;}
+.res-lbl{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--c3);margin-bottom:.8rem;}
+
+/* location cards */
+.loc-cards{display:flex;flex-direction:column;gap:.8rem;}
+.loc-card{display:flex;gap:.8rem;background:rgba(244,243,238,.05);border:1px solid rgba(188,184,177,.12);border-radius:8px;overflow:hidden;transition:all .2s;animation:fadeup .4s ease both;}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.loc-card:hover{border-color:rgba(224,175,160,.3);transform:translateX(3px);}
+.loc-card img{width:130px;height:100px;object-fit:cover;flex-shrink:0;}
+.loc-body{padding:.75rem .75rem .75rem 0;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.loc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.4rem;}
+.loc-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:var(--c4);}
+.loc-area{font-size:.68rem;color:var(--c3);margin-top:1px;}
+.match-b{font-size:.68rem;padding:2px 8px;border-radius:20px;background:rgba(224,175,160,.15);color:var(--c5);border:1px solid rgba(224,175,160,.3);white-space:nowrap;flex-shrink:0;}
+.loc-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem;}
+.loc-tag{font-size:.6rem;background:rgba(188,184,177,.1);color:var(--c3);padding:1px 6px;border-radius:20px;}
+.loc-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem;}
+.crowd{font-size:.62rem;color:var(--c2);}
+.btn-save{background:none;border:1px solid rgba(188,184,177,.2);color:var(--c3);font-size:.62rem;padding:2px 9px;border-radius:20px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.btn-save:hover,.btn-save.saved{border-color:var(--c5);color:var(--c5);}
+.btn-save.saved{background:rgba(224,175,160,.15);}
+
+/* cam settings */
+.cam-panel{background:rgba(244,243,238,.04);border:1px solid rgba(188,184,177,.1);border-radius:8px;padding:1rem;margin-top:1rem;display:none;}
+.cam-panel.show{display:block;}
+.cam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem;}
+.cam-stat{background:rgba(244,243,238,.06);border-radius:4px;padding:.5rem .7rem;}
+.cam-lbl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--c2);margin-bottom:2px;}
+.cam-val{font-size:.9rem;font-weight:500;color:var(--c5);}
+
+/* AI */
+.ai-panel{background:rgba(244,243,238,.04);border:1px solid rgba(188,184,177,.1);border-radius:8px;padding:1rem;margin-top:1rem;display:none;}
+.ai-panel.show{display:block;}
+.ai-body{font-size:.8rem;color:var(--c3);line-height:1.8;white-space:pre-wrap;}
+.ai-tag{display:inline-block;background:rgba(224,175,160,.12);color:var(--c5);border:1px solid rgba(224,175,160,.25);border-radius:20px;padding:1px 8px;font-size:.62rem;margin:1px;}
+
+/* weather */
+.w-strip{display:none;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1rem;}
+.w-strip.show{display:grid;}
+.w-stat{background:rgba(244,243,238,.04);border:1px solid rgba(188,184,177,.1);border-radius:6px;padding:.7rem;}
+.w-lbl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--c2);margin-bottom:2px;}
+.w-val{font-size:1rem;color:var(--c4);}
+.w-sub{font-size:.62rem;color:var(--c2);margin-top:1px;}
+
+/* SUN */
+.sun-section{background:var(--c4);}
+.sun-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+.sun-ctrl label{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--c2);margin-bottom:.3rem;}
+.sun-ctrl{margin-bottom:.9rem;}
+.sun-ctrl input[type=date]{background:var(--panel);border:1px solid var(--border);color:var(--c1);padding:.55rem .8rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;width:100%;}
+.time-val{font-size:.85rem;font-weight:500;color:var(--c1);margin-top:.25rem;}
+.sky-box{background:var(--panel);border:1px solid var(--border);border-radius:8px;height:130px;position:relative;overflow:hidden;margin-top:.6rem;}
+.sky-h{position:absolute;bottom:32px;left:0;right:0;height:1px;background:var(--border);}
+.sky-g{position:absolute;bottom:0;left:0;right:0;height:32px;background:var(--c4);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 .7rem;}
+.sky-g span{font-size:.6rem;color:var(--c2);}
+.sky-e{position:absolute;left:.7rem;top:.5rem;font-size:.6rem;color:var(--c2);}
+.sky-w{position:absolute;right:.7rem;top:.5rem;font-size:.6rem;color:var(--c2);}
+.sun-ball{position:absolute;width:18px;height:18px;border-radius:50%;background:#EF9F27;transition:all .4s ease;}
+.sun-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem;}
+.sun-stat{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.7rem;}
+.ss-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--c2);margin-bottom:2px;}
+.ss-val{font-size:1.1rem;font-weight:500;color:var(--c1);}
+.ss-sub{font-size:.62rem;color:var(--c2);margin-top:1px;}
+.shot-box{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.8rem;margin-top:.8rem;}
+.shot-box .st{font-size:.72rem;font-weight:500;color:var(--c1);margin-bottom:.25rem;}
+.shot-box .sd{font-size:.78rem;color:var(--c2);line-height:1.6;}
+.q-bar{display:flex;gap:3px;height:5px;margin-top:.8rem;border-radius:3px;overflow:hidden;}
+.q-seg{flex:1;}
+.q-times{display:flex;justify-content:space-between;font-size:.58rem;color:var(--c2);margin-top:3px;}
+
+/* FAVS */
+.fav-section{background:var(--bg);display:none;}
+.fav-section.show{display:block;}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:1.5rem;}
+.fav-card{border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--panel);position:relative;animation:fadeup .3s ease both;}
+.fav-card img{width:100%;height:120px;object-fit:cover;display:block;}
+.fav-body{padding:.75rem;}
+.fav-body h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--c1);}
+.fav-body p{font-size:.7rem;color:var(--c2);margin-top:.2rem;}
+.btn-unfav{position:absolute;top:7px;right:7px;background:rgba(244,243,238,.9);border:none;border-radius:50%;width:24px;height:24px;font-size:.7rem;cursor:pointer;color:var(--c1);display:flex;align-items:center;justify-content:center;}
+
+/* FOOTER */
+footer{background:var(--c1);color:var(--c3);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(188,184,177,.1);}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--c4);letter-spacing:1px;}
+footer .copy{font-size:.75rem;}
+footer a{color:var(--c5);text-decoration:none;font-size:.78rem;}
+
+/* LOADER */
+.loader{display:none;position:fixed;inset:0;background:rgba(70,63,58,.82);z-index:200;justify-content:center;align-items:center;flex-direction:column;gap:1rem;backdrop-filter:blur(4px);}
+.loader.show{display:flex;}
+.loader-ring{width:46px;height:46px;border-radius:50%;border:2px solid rgba(224,175,160,.2);border-top-color:var(--c5);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-msg{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--c3);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  header{padding:.9rem 1.5rem;}
+  .search-wrap{width:150px;}
+  .hero{padding:0 1.5rem 4rem;}
+  .section{padding:4rem 1.5rem;}
+  .scout-grid,.sun-layout{grid-template-columns:1fr;}
+  .w-strip{grid-template-columns:repeat(2,1fr);}
+  .exif-grid,.cam-grid{grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:column;gap:.8rem;text-align:center;}
+  nav a:not(#favLink){display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">Directors <em>Match</em></div>
+  <div class="search-wrap">
+    <span style="color:var(--c2);font-size:.9rem;">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search locations...">
+  </div>
+  <nav>
+    <a onclick="go('features')">Features</a>
+    <a onclick="go('scout')">Scout</a>
+    <a onclick="go('sun')">Sun</a>
+    <a id="favLink" onclick="go('favs')">Saved (<span id="favCount">0</span>)</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Sage University Bhopal · AI Cinematic Location Scouting</div>
+    <h1>Find Your<br><em>Perfect</em><br>Frame.</h1>
+    <p>Upload a reference image. Get AI-matched campus locations, EXIF camera data, live Bhopal weather, and sun position — all in one place.</p>
+    <button class="btn-cta" onclick="go('scout')">Start Scouting ↓</button>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span></div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features" id="features">
+  <div class="sec-eyebrow">What We Offer</div>
+  <h2 class="sec-title">Every tool a <em>filmmaker needs.</em></h2>
+  <div class="feat-grid">
+    <div class="feat"><div class="feat-icon">◎</div><h3>AI Scene Analysis</h3><p>Claude AI reads your reference image — lighting, mood, shot type, and Bollywood director references.</p></div>
+    <div class="feat"><div class="feat-icon">◈</div><h3>15 Campus Locations</h3><p>All real Sage University spots matched with photos, mood tags, match % and crowd levels.</p></div>
+    <div class="feat"><div class="feat-icon">⬡</div><h3>EXIF Camera Data</h3><p>Auto-extracts ISO, shutter speed, aperture, focal length, EV and white balance from your uploaded photo.</p></div>
+    <div class="feat"><div class="feat-icon">☁</div><h3>Live Weather</h3><p>Real-time Bhopal weather — temperature, humidity, wind and golden hour from OpenWeatherMap.</p></div>
+    <div class="feat"><div class="feat-icon">☀</div><h3>Sun Position</h3><p>Photo Pills-style sun tracker locked to Sage University (23.25°N, 77.40°E) for any date and time.</p></div>
+    <div class="feat"><div class="feat-icon">♡</div><h3>Save Favourites</h3><p>Bookmark locations to browser storage. No account needed. Stays saved across sessions.</p></div>
+  </div>
+</section>
+
+<!-- SCOUT TOOL -->
+<section class="section scout" id="scout">
+  <div class="sec-eyebrow">The Tool</div>
+  <h2 class="sec-title">Scout a <em>location.</em></h2>
+  <div class="scout-grid">
+
+    <!-- LEFT -->
+    <div>
+      <div class="upload-zone" id="uploadZone">
+        <span class="up-icon">↑</span>
+        <p>Drop your reference image here<br>or click to browse</p>
+        <p class="hint">JPG, PNG · Images only</p>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+      <img id="previewImg" alt="Your uploaded reference image">
+
+      <div class="exif-panel" id="exifPanel">
+        <div class="sec-eyebrow" style="margin-bottom:.5rem;">Camera data from your image</div>
+        <div class="exif-grid" id="exifGrid"></div>
+      </div>
+
+      <div class="inputs">
+        <div class="inp">
+          <label>City / Area in Bhopal</label>
+          <input type="text" id="cityInput" placeholder="e.g. Bhopal, Sage University, VIP Road">
+        </div>
+        <div class="inp">
+          <label>OpenWeatherMap API Key <span style="color:var(--c2);font-size:.58rem;">(optional — free at openweathermap.org)</span></label>
+          <input type="text" id="wKey" placeholder="Paste your free API key here">
+        </div>
+      </div>
+
+      <div class="err" id="errBar"></div>
+      <button class="btn-analyze" id="analyzeBtn">Analyze Scene</button>
+    </div>
+
+    <!-- RIGHT -->
+    <div>
+      <div class="res-empty" id="resEmpty">
+        <div class="big">⬡</div>
+        <p>Your matched locations appear here after analysis.</p>
+      </div>
+
+      <div id="resContent">
+        <!-- Uploaded reference image shown in results -->
+        <div class="res-lbl">Your Reference Image</div>
+        <div id="refImgWrap" style="margin-bottom:1.2rem;display:none;">
+          <img id="refImgResult" alt="Your reference image"
+               style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;border:1px solid rgba(188,184,177,.15);">
+          <div id="refImgLabel" style="font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--c3);margin-top:.5rem;"></div>
+        </div>
+        <div class="res-lbl">Matched Locations — Sage University Bhopal</div>
+        <div class="loc-cards" id="locCards"></div>
+
+        <!-- Recommended camera settings -->
+        <div class="cam-panel" id="camPanel">
+          <div class="sec-eyebrow" style="margin-bottom:.5rem;">Recommended camera settings for this scene</div>
+          <div class="cam-grid" id="camGrid"></div>
+        </div>
+
+        <!-- AI Analysis -->
+        <div class="ai-panel" id="aiPanel">
+          <div class="sec-eyebrow" style="margin-bottom:.5rem;">AI Cinematic Analysis</div>
+          <div class="ai-body" id="aiBody"></div>
+        </div>
+
+        <!-- Weather -->
+        <div class="w-strip" id="wStrip"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SUN POSITION -->
+<section class="section sun-section" id="sun">
+  <div class="sec-eyebrow">Sun Position</div>
+  <h2 class="sec-title">Plan your <em>shoot time.</em></h2>
+  <p style="font-size:.85rem;color:var(--c2);line-height:1.7;margin-bottom:2rem;max-width:500px;">Locked to Sage University Bhopal (23.25°N, 77.40°E). Drag the time slider to see altitude, azimuth, light quality and shot recommendations — exactly like Photo Pills, completely free.</p>
+  <div class="sun-layout">
+    <div>
+      <div class="sun-ctrl">
+        <label>Date</label>
+        <input type="date" id="sunDate">
+      </div>
+      <div class="sun-ctrl">
+        <label>Time of day</label>
+        <input type="range" id="sunSlider" min="5" max="20" step=".25" value="14" style="width:100%">
+        <div class="time-val" id="sunTimeVal">2:00 PM</div>
+      </div>
+      <div class="sky-box" id="skyBox">
+        <div class="sky-e">E</div><div class="sky-w">W</div>
+        <div class="sky-h"></div>
+        <div class="sun-ball" id="sunBall"></div>
+        <div class="sky-g"><span>Sage University Bhopal · 23.25°N, 77.40°E</span></div>
+      </div>
+      <div class="q-bar" id="qBar"></div>
+      <div class="q-times"><span>5 AM</span><span>8 AM</span><span>12 PM</span><span>4 PM</span><span>8 PM</span></div>
+    </div>
+    <div>
+      <div class="sun-stats">
+        <div class="sun-stat"><div class="ss-lbl">Altitude</div><div class="ss-val" id="sunAlt">--°</div><div class="ss-sub">Angle above horizon</div></div>
+        <div class="sun-stat"><div class="ss-lbl">Azimuth</div><div class="ss-val" id="sunAzi">--°</div><div class="ss-sub">Compass direction</div></div>
+        <div class="sun-stat"><div class="ss-lbl">Light quality</div><div class="ss-val" id="sunQ" style="font-size:.9rem">--</div><div class="ss-sub" id="sunQs"></div></div>
+        <div class="sun-stat"><div class="ss-lbl">Shadow length</div><div class="ss-val" id="sunSh">--</div><div class="ss-sub">vs subject height</div></div>
+      </div>
+      <div class="shot-box">
+        <div class="st" id="shotT">Drag the time slider to see shot recommendations</div>
+        <div class="sd" id="shotD">The sun position tool calculates exact filming conditions for every hour at Sage University Bhopal — the same maths used by Photo Pills.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAVOURITES -->
+<section class="section fav-section" id="favs">
+  <div class="sec-eyebrow">Saved</div>
+  <h2 class="sec-title" style="color:var(--c1);">Your <em>favourites.</em></h2>
+  <div class="fav-grid" id="favGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Directors Match</div>
+  <div class="copy">© 2025 Directors Match · Sage University Bhopal · PBL Prototype · AI-Powered Cinematic Location Scouting</div>
+  <div><a href="mailto:hello@directorsmatch.in">hello@directorsmatch.in</a></div>
+</footer>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-msg" id="loaderMsg">Analyzing scene...</div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+const API = 'http://localhost:8000';
+
+// ── 15 SAGE UNIVERSITY LOCATIONS ───────────────────────────
+const LOCATIONS = [
+  {id:1, name:'Central courtyard — Library view',      area:'Between blocks, Library right',      img:'https://images.unsplash.com/photo-1562774053-701939374585?w=400&q=70', tags:['Wide Angle','Aerial','Green','Establishing'],       crowd:'Low',    camISO:'200', camSS:'1/500s', camAp:'f/5.6', camFocal:'24mm',  camEV:'+0.3', camWB:'Daylight'},
+  {id:2, name:'F Block staircase — window view',        area:'F Block, 3rd floor',                 img:'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&q=70', tags:['Geometric','Interior','Sunlit','Shadow'],           crowd:'Low',    camISO:'400', camSS:'1/125s', camAp:'f/2.8', camFocal:'35mm',  camEV:'0',    camWB:'Auto'},
+  {id:3, name:'F Block stairwell — top-down spiral',    area:'F Block, 3rd floor',                 img:'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&q=70', tags:['Dramatic','Overhead','Graphic','Spiral'],           crowd:'Low',    camISO:'800', camSS:'1/60s',  camAp:'f/4',   camFocal:'16mm',  camEV:'-0.3', camWB:'Auto'},
+  {id:4, name:'F Block atrium — back side',             area:'F Block, back facing',               img:'https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=400&q=70', tags:['Multi-floor','Open','Institutional','Columns'],    crowd:'Low',    camISO:'400', camSS:'1/200s', camAp:'f/4',   camFocal:'28mm',  camEV:'0',    camWB:'Fluorescent'},
+  {id:5, name:'F Block corridor — balcony side',        area:'F Block, interior',                  img:'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=70', tags:['Minimalist','Long Hallway','Empty','Perspective'], crowd:'Low',    camISO:'200', camSS:'1/250s', camAp:'f/5.6', camFocal:'24mm',  camEV:'0',    camWB:'Daylight'},
+  {id:6, name:'Main gate parking area',                 area:'Near main entrance gate',            img:'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=70', tags:['Moody','Rainy','Raw','Urban','Real Life'],         crowd:'High',   camISO:'800', camSS:'1/250s', camAp:'f/2.8', camFocal:'35mm',  camEV:'-0.7', camWB:'Cloudy'},
+  {id:7, name:'F Block facade — garden side',           area:'F Block, exterior front',            img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=70', tags:['Red Brick','Lush Garden','Cinematic','Colours'],  crowd:'Low',    camISO:'100', camSS:'1/500s', camAp:'f/8',   camFocal:'50mm',  camEV:'+0.3', camWB:'Daylight'},
+  {id:8, name:'F Block classroom — golden hour',        area:'F Block, 3rd floor',                 img:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=70', tags:['Silhouette','Golden Hour','Warm','Backlit','Emotional'], crowd:'Low', camISO:'400', camSS:'1/100s', camAp:'f/1.8', camFocal:'50mm',  camEV:'-1',   camWB:'Tungsten'},
+  {id:9, name:'Main entrance tree-lined road',          area:'Main gate entrance road',            img:'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=70', tags:['Canopy','Arrival','Serene','Nature','Road'],      crowd:'Low',    camISO:'200', camSS:'1/500s', camAp:'f/5.6', camFocal:'35mm',  camEV:'0',    camWB:'Shade'},
+  {id:10,name:'A Block — I Love SAGE frontage',         area:'A Block, main frontage',             img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=70', tags:['Iconic','Landmark','Bright','Identity','Pride'],  crowd:'Medium', camISO:'100', camSS:'1/800s', camAp:'f/8',   camFocal:'35mm',  camEV:'+0.3', camWB:'Daylight'},
+  {id:11,name:'Drone courtyard overview',               area:'Central campus aerial',              img:'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?w=400&q=70', tags:['Spacious','Overhead','Wide','Academic'],          crowd:'Low',    camISO:'100', camSS:'1/1000s',camAp:'f/5.6', camFocal:'24mm',  camEV:'0',    camWB:'Daylight'},
+  {id:12,name:'Auto stand — roundabout area',           area:'Just outside main gate',             img:'https://images.unsplash.com/photo-1556742212-5b321f3c261b?w=400&q=70', tags:['Raw','Urban','Real Life','Street','Auto'],        crowd:'High',   camISO:'400', camSS:'1/500s', camAp:'f/4',   camFocal:'28mm',  camEV:'-0.3', camWB:'Daylight'},
+  {id:13,name:'Main ornate gate entrance',              area:'Main gate, campus entry',            img:'https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?w=400&q=70', tags:['Grand','Iconic','Arrival','Heritage','Arch'],     crowd:'Medium', camISO:'100', camSS:'1/500s', camAp:'f/8',   camFocal:'35mm',  camEV:'+0.3', camWB:'Daylight'},
+  {id:14,name:'Grand arch — globe sculpture',           area:'Main road, outside campus',          img:'https://images.unsplash.com/photo-1590650046871-92c887180603?w=400&q=70', tags:['Cinematic','Dramatic','Wide','Road','Landmark'],  crowd:'Medium', camISO:'100', camSS:'1/800s', camAp:'f/8',   camFocal:'24mm',  camEV:'0',    camWB:'Daylight'},
+  {id:15,name:'SAGE 3D letters — welcome plaza',        area:'Inside main gate, Brahmagiri block', img:'https://images.unsplash.com/photo-1541178735493-479c1a27ed24?w=400&q=70', tags:['Prestigious','Poster-worthy','Identity','Plaza'], crowd:'Low',    camISO:'100', camSS:'1/640s', camAp:'f/8',   camFocal:'35mm',  camEV:'+0.3', camWB:'Daylight'},
+];
+
+// ── STATE ──────────────────────────────────────────────────
+let favs = JSON.parse(localStorage.getItem('directors_match_favs') || '[]');
+
+// ── DOM ────────────────────────────────────────────────────
+const uploadZone  = document.getElementById('uploadZone');
+const fileInput   = document.getElementById('fileInput');
+const previewImg  = document.getElementById('previewImg');
+const analyzeBtn  = document.getElementById('analyzeBtn');
+const loader      = document.getElementById('loader');
+const loaderMsg   = document.getElementById('loaderMsg');
+const errBar      = document.getElementById('errBar');
+const resEmpty    = document.getElementById('resEmpty');
+const resContent  = document.getElementById('resContent');
+const locCards    = document.getElementById('locCards');
+const aiPanel     = document.getElementById('aiPanel');
+const aiBody      = document.getElementById('aiBody');
+const wStrip      = document.getElementById('wStrip');
+const exifPanel   = document.getElementById('exifPanel');
+const exifGrid    = document.getElementById('exifGrid');
+const camPanel    = document.getElementById('camPanel');
+const camGrid     = document.getElementById('camGrid');
+
+// ── HERO PARALLAX ──────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const bg = document.getElementById('heroBg');
+  if (bg) bg.style.transform = `scale(1.06) translateY(${window.scrollY * .14}px)`;
+});
+setTimeout(() => document.getElementById('heroBg').classList.add('loaded'), 100);
+
+// ── NAVIGATION ─────────────────────────────────────────────
+function go(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+// ── UPLOAD ─────────────────────────────────────────────────
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--c5)'; });
+uploadZone.addEventListener('dragleave', () => uploadZone.style.borderColor = '');
+uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.style.borderColor = ''; if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) handleFile(fileInput.files[0]); });
+
+function handleFile(file) {
+  if (!file.type.startsWith('image/')) { showErr('Please upload an image file (JPG, PNG, etc.)'); return; }
+  hideErr();
+  uploadZone.querySelector('p').textContent = '✓ ' + file.name + ' — ready to analyze';
+  uploadZone.classList.add('ready');
+  previewImg.src = URL.createObjectURL(file);
+  previewImg.style.display = 'block';
+  readEXIF(file);
+}
+
+// ── EXIF READER ────────────────────────────────────────────
+function readEXIF(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const view = new DataView(e.target.result);
+    if (view.getUint16(0, false) !== 0xFFD8) { showExif({}); return; }
+    let offset = 2;
+    while (offset < view.byteLength) {
+      const marker = view.getUint16(offset, false); offset += 2;
+      if (marker === 0xFFE1) {
+        if (view.getUint32(offset + 2, false) === 0x45786966) {
+          showExif(parseEXIF(view, offset + 10)); return;
+        }
+      }
+      if ((marker & 0xFF00) !== 0xFF00) break;
+      offset += view.getUint16(offset, false);
+    }
+    showExif({});
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function parseEXIF(view, start) {
+  try {
+    const little = view.getUint16(start, false) === 0x4949;
+    const ifd = start + view.getUint32(start + 4, little);
+    const entries = view.getUint16(ifd, little);
+    const d = {};
+    for (let i = 0; i < entries; i++) {
+      const tag = view.getUint16(ifd + 2 + i * 12, little);
+      const val = view.getUint32(ifd + 8 + i * 12, little);
+      if (tag === 0x829A) { const n = view.getUint32(start + val, little), den = view.getUint32(start + val + 4, little); d.shutter = n + '/' + den + 's'; }
+      if (tag === 0x829D) { const n = view.getUint32(start + val, little), den = view.getUint32(start + val + 4, little); d.aperture = 'f/' + (n / den).toFixed(1); }
+      if (tag === 0x8827) { d.iso = 'ISO ' + val; }
+      if (tag === 0x920A) { const n = view.getUint32(start + val, little), den = view.getUint32(start + val + 4, little); d.focal = (n / den).toFixed(1) + 'mm'; }
+      if (tag === 0xA215) { const n = view.getUint32(start + val, little), den = view.getUint32(start + val + 4, little); d.ev = (Math.log2(n / den)).toFixed(1) + ' EV'; }
+      if (tag === 0xA403) { d.wb = val === 0 ? 'Auto' : 'Manual'; }
+    }
+    return d;
+  } catch { return {}; }
+}
+
+function showExif(d) {
+  const fields = [
+    { l: 'ISO',           v: d.iso    || '--' },
+    { l: 'Shutter speed', v: d.shutter|| '--' },
+    { l: 'Aperture',      v: d.aperture||'--' },
+    { l: 'Focal length',  v: d.focal  || '--' },
+    { l: 'EV',            v: d.ev     || '--' },
+    { l: 'White balance', v: d.wb     || 'Auto' },
+  ];
+  exifGrid.innerHTML = fields.map(f => `<div class="exif-stat"><div class="exif-lbl">${f.l}</div><div class="exif-val">${f.v}</div></div>`).join('');
+  exifPanel.classList.add('show');
+}
+
+// ── SEARCH ─────────────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.loc-card').forEach(c => {
+    const nm = (c.dataset.name||'').toLowerCase();
+    const tg = (c.dataset.tags||'').toLowerCase();
+    const ar = (c.dataset.area||'').toLowerCase();
+    c.style.display = (nm.includes(q)||tg.includes(q)||ar.includes(q)) ? '' : 'none';
+  });
+});
+
+// ── ANALYZE ────────────────────────────────────────────────
+analyzeBtn.addEventListener('click', async () => {
+  hideErr();
+  if (!fileInput.files[0]) { showErr('Please upload a reference image first.'); return; }
+  analyzeBtn.disabled = true;
+  const city = document.getElementById('cityInput').value.trim() || 'Bhopal';
+  const key  = document.getElementById('wKey').value.trim();
+
+  try {
+    setLoader(true, 'Sending to AI...');
+    const [aiRes, wRes] = await Promise.allSettled([
+      callClaude(fileInput.files[0]),
+      key ? fetchWeather(city, key) : Promise.resolve(null)
+    ]);
+
+    setLoader(true, 'Fetching locations...');
+
+    // Try real backend, fallback to local data
+    let locs = null;
+    try {
+      const r = await fetch(`${API}/locations`, { signal: AbortSignal.timeout(3000) });
+      if (r.ok) { const d = await r.json(); if (d.locations?.length) locs = d.locations; }
+    } catch {}
+    if (!locs) locs = LOCATIONS;
+
+    // Prototype matching — random selection with simulated scores
+    const picked = [...locs].sort(() => Math.random() - .5).slice(0, 4)
+      .map(l => ({ ...l, match: Math.floor(Math.random() * 25) + 74 }))
+      .sort((a, b) => b.match - a.match);
+
+    setLoader(false);
+
+    renderCards(picked);
+    renderCamSettings(picked[0]);
+    if (aiRes.status === 'fulfilled') renderAI(aiRes.value);
+    if (wRes.status === 'fulfilled' && wRes.value) renderWeather(wRes.value);
+
+    resEmpty.style.display = 'none';
+    resContent.style.display = 'block';
+    // Show reference image in results panel
+    const refWrap = document.getElementById('refImgWrap');
+    const refImg  = document.getElementById('refImgResult');
+    const refLbl  = document.getElementById('refImgLabel');
+    if (fileInput.files[0] && refWrap && refImg) {
+      refImg.src = URL.createObjectURL(fileInput.files[0]);
+      refLbl.textContent = fileInput.files[0].name;
+      refWrap.style.display = 'block';
+    }
+    document.getElementById('scout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch (err) {
+    setLoader(false);
+    showErr('Error: ' + err.message + ' — Is your backend running? (python main.py)');
+  }
+  analyzeBtn.disabled = false;
+});
+
+// ── CLAUDE AI ──────────────────────────────────────────────
+async function callClaude(file) {
+  const b64 = await toBase64(file);
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+      messages: [{ role: 'user', content: [
+        { type: 'image', source: { type: 'base64', media_type: file.type, data: b64 } },
+        { type: 'text', text: `You are a professional film location scout and cinematographer for Bhopal, India. Analyze this reference image and provide a cinematic breakdown:\n\n1. SCENE TYPE: What environment/location is this?\n2. LIGHTING: Light quality, direction, time of day, mood\n3. CINEMATIC STYLE: Which Bollywood directors or films does this evoke?\n4. BEST SHOT TYPES: Camera angles that work here\n5. FILMING TIPS: 2-3 practical tips for shooting this scene\n6. MOOD TAGS: List 5 single-word mood descriptors\n\nKeep it punchy and filmmaker-friendly.` }
+      ]}]
+    })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'Claude API error'); }
+  const d = await res.json();
+  return d.content[0].text;
+}
+
+// ── WEATHER ────────────────────────────────────────────────
+async function fetchWeather(city, key) {
+  const r = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${key}&units=metric`);
+  if (!r.ok) throw new Error('Weather API error — check your key and city name');
+  return r.json();
+}
+
+// ── RENDER CARDS ───────────────────────────────────────────
+function renderCards(locs) {
+  locCards.innerHTML = locs.map((l, i) => `
+    <div class="loc-card" data-name="${l.name}" data-tags="${(l.tags||[]).join(',')}" data-area="${l.area}" style="animation-delay:${i * .1}s">
+      <img src="${l.image_url || l.img || ''}" alt="${l.name}"
+>
+      <div class="loc-body">
+        <div>
+          <div class="loc-top">
+            <div><div class="loc-name">${l.name}</div><div class="loc-area">${l.area}</div></div>
+            <div class="match-b">${l.match}% match</div>
+          </div>
+          <div class="loc-tags">${(l.tags || []).map(t => `<span class="loc-tag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="loc-bottom">
+          <span class="crowd">Crowd: ${l.crowd_level || l.crowd || 'Low'}</span>
+          <button class="btn-save ${favs.find(f => f.id === l.id) ? 'saved' : ''}"
+            id="sb-${l.id}" onclick="toggleFav(${l.id})">
+            ${favs.find(f => f.id === l.id) ? '♥ Saved' : '♡ Save'}
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER CAM SETTINGS ────────────────────────────────────
+function renderCamSettings(loc) {
+  if (!loc) return;
+  const src = LOCATIONS.find(l => l.id === loc.id) || loc;
+  const fields = [
+    { l: 'ISO',           v: src.camISO   || 'ISO 400' },
+    { l: 'Shutter speed', v: src.camSS    || '1/250s'  },
+    { l: 'Aperture',      v: src.camAp    || 'f/5.6'   },
+    { l: 'Focal length',  v: src.camFocal || '35mm'    },
+    { l: 'EV',            v: src.camEV    || '0 EV'    },
+    { l: 'White balance', v: src.camWB    || 'Daylight' },
+  ];
+  camGrid.innerHTML = fields.map(f => `
+    <div class="cam-stat"><div class="cam-lbl">${f.l}</div><div class="cam-val">${f.v}</div></div>`).join('');
+  camPanel.classList.add('show');
+}
+
+// ── RENDER AI ──────────────────────────────────────────────
+function renderAI(text) {
+  const moodMatch = text.match(/MOOD TAGS[:\s]+(.+)/i);
+  let html = text;
+  if (moodMatch) {
+    const tags = moodMatch[1].split(/[,\/·]/).map(t => t.trim()).filter(Boolean);
+    html = text.replace(moodMatch[0], 'MOOD TAGS: ' + tags.map(t => `<span class="ai-tag">${t}</span>`).join(' '));
+  }
+  html = html.replace(/^(\d\.\s[A-Z ]+:)/gm, '<strong style="color:var(--c5)">$1</strong>');
+  aiBody.innerHTML = html.replace(/\n/g, '<br>');
+  aiPanel.classList.add('show');
+}
+
+// ── RENDER WEATHER ─────────────────────────────────────────
+function renderWeather(d) {
+  const sunset = new Date(d.sys.sunset * 1000);
+  const golden = new Date(sunset.getTime() - 30 * 60000);
+  const fmt = x => x.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  wStrip.innerHTML = `
+    <div class="w-stat"><div class="w-lbl">Condition</div><div class="w-val" style="font-size:.82rem;text-transform:capitalize">${d.weather[0].description}</div></div>
+    <div class="w-stat"><div class="w-lbl">Temperature</div><div class="w-val">${Math.round(d.main.temp)}°C</div><div class="w-sub">Feels ${Math.round(d.main.feels_like)}°C</div></div>
+    <div class="w-stat"><div class="w-lbl">Humidity</div><div class="w-val">${d.main.humidity}%</div></div>
+    <div class="w-stat"><div class="w-lbl">Golden Hour</div><div class="w-val" style="font-size:.85rem">${fmt(golden)}</div><div class="w-sub">Best shoot time</div></div>`;
+  wStrip.classList.add('show');
+}
+
+// ── SUN POSITION ───────────────────────────────────────────
+const LAT = 23.25 * Math.PI / 180, LON = 77.40;
+
+function getSun(date, hour) {
+  const d = new Date(date); d.setHours(0, 0, 0, 0);
+  const day = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+  const B = (2 * Math.PI / 365) * (day - 81);
+  const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B);
+  const noon = 12 - (LON - 82.5) / 15 - eot / 60;
+  const ha = (hour - noon) * 15 * Math.PI / 180;
+  const decl = 23.45 * Math.sin(B) * Math.PI / 180;
+  const sinAlt = Math.sin(LAT) * Math.sin(decl) + Math.cos(LAT) * Math.cos(decl) * Math.cos(ha);
+  const alt = Math.asin(Math.max(-1, Math.min(1, sinAlt))) * 180 / Math.PI;
+  const cosAz = (Math.sin(decl) - Math.sin(alt * Math.PI / 180) * Math.sin(LAT)) / (Math.cos(alt * Math.PI / 180) * Math.cos(LAT));
+  let az = Math.acos(Math.max(-1, Math.min(1, cosAz))) * 180 / Math.PI;
+  if (hour > noon) az = 360 - az;
+  return { alt: Math.round(alt * 10) / 10, az: Math.round(az * 10) / 10 };
+}
+
+function getQuality(alt) {
+  if (alt < 0)  return { q: 'Night',       s: 'No shooting',       c: '#888780', shot: 'No shooting possible',          desc: 'Sun is below the horizon. Plan night shots or wait for sunrise.' };
+  if (alt < 6)  return { q: 'Golden hour', s: 'Magic light — now!', c: '#EF9F27', shot: 'Silhouettes & backlighting',    desc: 'Best time to shoot. Warm golden light, long shadows. Hit SAGE 3D letters, tree-lined road, or F Block facade now.' };
+  if (alt < 15) return { q: 'Blue hour',   s: 'Soft warm tones',   c: '#85B7EB', shot: 'Atmospheric wide shots',        desc: 'Low angle sun creates dramatic side lighting. F Block staircase and corridor shots excel — light streams through windows.' };
+  if (alt < 35) return { q: 'Good light',  s: 'Directional & warm', c: '#5DCAA5', shot: 'Architecture & portraits',     desc: 'Good directional light with moderate shadows. Main gate, A Block frontage, and garden shots work beautifully.' };
+  if (alt < 60) return { q: 'Midday',      s: 'Harsh overhead',    c: '#F0997B', shot: 'Indoor locations only',         desc: 'Avoid outdoor portraits. F Block atrium, stairwell spiral, and classroom golden hour are perfect now.' };
+  return         { q: 'High noon',         s: 'Avoid outdoors',    c: '#E24B4A', shot: 'Shoot indoors only',            desc: 'Unflattering shadows outdoors. Scout new locations or shoot F Block interior scenes.' };
+}
+
+function fmtTime(h) {
+  const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+  const ap = hh >= 12 ? 'PM' : 'AM', hd = hh > 12 ? hh - 12 : (hh === 0 ? 12 : hh);
+  return `${hd}:${mm.toString().padStart(2, '0')} ${ap}`;
+}
+
+function getShadow(alt) {
+  if (alt <= 0) return '∞';
+  const s = Math.round(1 / Math.tan(alt * Math.PI / 180) * 10) / 10;
+  return s > 20 ? '>20×' : s + '×';
+}
+
+function updateSun() {
+  const date = document.getElementById('sunDate').value || new Date().toISOString().split('T')[0];
+  const hour = parseFloat(document.getElementById('sunSlider').value);
+  document.getElementById('sunTimeVal').textContent = fmtTime(hour);
+
+  const pos = getSun(date, hour);
+  const q   = getQuality(pos.alt);
+
+  document.getElementById('sunAlt').textContent = pos.alt + '°';
+  document.getElementById('sunAzi').textContent = pos.az + '°';
+  document.getElementById('sunQ').textContent   = q.q;
+  document.getElementById('sunQ').style.color   = q.c;
+  document.getElementById('sunQs').textContent  = q.s;
+  document.getElementById('sunSh').textContent  = getShadow(pos.alt);
+  document.getElementById('shotT').textContent  = 'Best shot: ' + q.shot;
+  document.getElementById('shotD').textContent  = q.desc;
+
+  const box  = document.getElementById('skyBox');
+  const W    = box.offsetWidth, H = box.offsetHeight - 32;
+  const ball = document.getElementById('sunBall');
+  const altC = Math.max(0, Math.min(pos.alt, 80));
+  ball.style.left       = ((pos.az / 360) * (W - 18)) + 'px';
+  ball.style.top        = (H - 32 - (altC / 80) * (H - 48)) + 'px';
+  ball.style.background = pos.alt <= 0 ? '#888780' : q.c;
+  ball.style.opacity    = pos.alt <= 0 ? '.3' : '1';
+
+  const qBar = document.getElementById('qBar');
+  qBar.innerHTML = '';
+  for (let h = 5; h <= 20; h += .5) {
+    const p = getSun(date, h), qh = getQuality(p.alt);
+    const seg = document.createElement('div');
+    seg.className = 'q-seg';
+    seg.style.background = h <= hour ? qh.c : 'var(--border)';
+    qBar.appendChild(seg);
+  }
+}
+
+document.getElementById('sunDate').value = new Date().toISOString().split('T')[0];
+document.getElementById('sunSlider').addEventListener('input', updateSun);
+document.getElementById('sunDate').addEventListener('change', updateSun);
+updateSun();
+
+// ── FAVOURITES ─────────────────────────────────────────────
+function toggleFav(id) {
+  const loc  = LOCATIONS.find(l => l.id === id) || { id, name: 'Location', img: '', area: '' };
+  const btn  = document.getElementById('sb-' + id);
+  const card = btn?.closest('.loc-card');
+  const name = card?.dataset.name || loc.name;
+  const img  = card?.querySelector('img')?.src || loc.img || '';
+  const area = card?.querySelector('.loc-area')?.textContent || loc.area || '';
+  const idx  = favs.findIndex(f => f.id === id);
+
+  if (idx === -1) {
+    favs.push({ id, name, img, area });
+    if (btn) { btn.textContent = '♥ Saved'; btn.classList.add('saved'); }
+  } else {
+    favs.splice(idx, 1);
+    if (btn) { btn.textContent = '♡ Save'; btn.classList.remove('saved'); }
+  }
+  localStorage.setItem('directors_match_favs', JSON.stringify(favs));
+  updateFavSection();
+}
+
+function updateFavSection() {
+  document.getElementById('favCount').textContent = favs.length;
+  const favLink = document.getElementById('favLink');
+  const favSec  = document.getElementById('favs');
+  if (favs.length > 0) {
+    favLink.style.display = 'inline';
+    favSec.classList.add('show');
+    document.getElementById('favGrid').innerHTML = favs.map(l => `
+      <div class="fav-card">
+        <img src="${l.img}" alt="${l.name}">
+        <button class="btn-unfav" onclick="toggleFav(${l.id})">✕</button>
+        <div class="fav-body"><h4>${l.name}</h4><p>${l.area}</p></div>
+      </div>`).join('');
+  } else {
+    favLink.style.display = 'none';
+    favSec.classList.remove('show');
+  }
+}
+
+// ── HELPERS ────────────────────────────────────────────────
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+function setLoader(on, msg = '') { loaderMsg.textContent = msg; loader.classList.toggle('show', on); }
+function showErr(msg) { errBar.textContent = msg; errBar.classList.add('show'); }
+function hideErr() { errBar.classList.remove('show'); }
+
+// ── INIT ───────────────────────────────────────────────────
+updateFavSection();
+</script>
+</body>
+</html>
